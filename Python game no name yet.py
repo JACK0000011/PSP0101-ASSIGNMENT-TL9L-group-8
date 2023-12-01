@@ -9,4 +9,11 @@
 # Phones: 010-3706933| MEMBER_PHONE_2 | MEMBER_PHONE_3
 # *********************************************************
 
-print("Welcome to our game!")
+import time
+import sys
+from time import sleep
+Start="Testing, How are you my friend \n"
+for char in Start:
+    sleep(0.1)
+    sys.stdout.write(char)
+    sys.stdout.flush()
