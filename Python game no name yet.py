@@ -64,5 +64,7 @@ for char in S3:
     sys.stdout.write(char)
     sys.stdout.flush()
 
+print(123)
+
 
 
