@@ -56,6 +56,8 @@ for char in S2:
 
 time.sleep(3)
 
+123123141
+
 S3="You:  Where... Where am I..."
 for char in S3:
     sleep(0.15)
