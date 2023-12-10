@@ -23,8 +23,8 @@ screen=pygame.display.set_mode((800,600))
 pygame.display.set_caption("No name game")
 running=True
 while running :
-    for event in pygame.event():
-        if event.type == pygame.quit():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
             running = False
 
 #Description of the game
