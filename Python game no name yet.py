@@ -12,7 +12,20 @@
 import time
 import sys
 import os
+import pygame
 from time import sleep
+
+#init the pygame
+pygame.init()
+
+screen=pygame.display.set_mode((800,600))
+
+pygame.display.set_caption("No name game")
+running=True
+while running :
+    for event in pygame.event():
+        if event.type == pygame.quit():
+            running = False
 
 #Description of the game
 os.system('cls')
@@ -56,15 +69,20 @@ for char in S2:
 
 time.sleep(3)
 
-123123141
-
 S3="You:  Where... Where am I..."
 for char in S3:
     sleep(0.15)
     sys.stdout.write(char)
     sys.stdout.flush()
 
-print(123)
+S4="Mystery old man: You are encage in this dungeon..."
+for char in S3:
+    sleep(0.15)
+    sys.stdout.write(char)
+    sys.stdout.flush()
+
+
+
 
 
 
