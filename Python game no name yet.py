@@ -27,59 +27,20 @@ while running :
         if event.type == pygame.QUIT:
             running = False
 
-#Description of the game
-os.system('cls')
-time.sleep(2)
-print("**********************")
-print("welcome to --- this a small game created by university students")
-time.sleep(3)
-print("It's a word based adventure game")
-time.sleep(3)
-print("Player need to type on their keyboard to play this game")
-time.sleep(3)
-print("Hope you enjoy it!")
-time.sleep(3)
-print("**********************")
-input("Press enter to continue")
-time.sleep(1)
-os.system('cls')
+#colour rgb
+green=(68,255,0)
+blue=(8,131,226)
 
-#Typing effect for the intro text
-Start=": How you feel... \n"
+screen.fill (green)
+pygame.display.update()
 
-for char in Start:
-    sleep(0.2)
-    sys.stdout.write(char)
-    sys.stdout.flush()
+X=500
+Y=500
 
-S1=": You have been asleep for quite some time...\n"
-
-for char in S1:
-    sleep(0.1)
-    sys.stdout.write(char)
-    sys.stdout.flush()
-
-time.sleep(3)
-
-S2="You open your eyes and saw an oldman is looking at you\n"
-for char in S2:
-    sleep(0.1)
-    sys.stdout.write(char)
-    sys.stdout.flush()
-
-time.sleep(3)
-
-S3="You:  Where... Where am I..."
-for char in S3:
-    sleep(0.15)
-    sys.stdout.write(char)
-    sys.stdout.flush()
-
-S4="Mystery old man: You are encage in this dungeon..."
-for char in S3:
-    sleep(0.15)
-    sys.stdout.write(char)
-    sys.stdout.flush()
+font1 = pygame.font.Font('Arial.ttf', 32)
+text= font1.render('Test',True, green, blue)
+textRect=text.get_rect()
+textRect.center=(X//2,Y//2)
 
 
 
