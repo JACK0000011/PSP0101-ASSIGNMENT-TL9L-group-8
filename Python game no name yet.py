@@ -28,7 +28,7 @@ original_niniimage = pygame.image.load("test.png")
 image_width = 100
 image_height = 75
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
-image_position = (50,50)
+image_position = (100,400)
 walk_speed = 5
 
 #loop for pygame not closing in program
@@ -39,12 +39,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-            
+
     keys = pygame.key.get_pressed()
     if keys[pygame.K_d]:
-        image_position[2] -= walk_speed
+        image_position[0] -= walk_speed
     if keys[pygame.K_a]:
-        image_position[2] += walk_speed
+        image_position[0] += walk_speed
 
     # Update the display
     screen.fill((8,131,226))
