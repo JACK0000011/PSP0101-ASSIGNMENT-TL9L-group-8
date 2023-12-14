@@ -25,30 +25,20 @@ pygame.display.set_caption("No name game")
 new_working_directory = "C:/Users/USER.MSI/Documents/GitHub/PSP0101-ASSIGNMENT-/picture"
 os.chdir(new_working_directory)
 original_niniimage = pygame.image.load("test.png")
-image_width = 100
-image_height = 75
+image_width = 150
+image_height = 200
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
-image_position = (100,400)
-walk_speed = 5
-
+image_position = (50,50)
 #loop for pygame not closing in program
-clock = pygame.time.Clock()
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_d]:
-        image_position[0] -= walk_speed
-    if keys[pygame.K_a]:
-        image_position[0] += walk_speed
-
     # Update the display
     screen.fill((8,131,226))
-    clock.tick(30)
+
     screen.blit(niniimage, image_position)
     pygame.display.flip()
     pygame.time.delay
