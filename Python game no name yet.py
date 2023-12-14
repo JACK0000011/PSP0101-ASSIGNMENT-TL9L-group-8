@@ -19,31 +19,31 @@ from time import sleep
 pygame.init()
 
 screen=pygame.display.set_mode((800,600))
-
 pygame.display.set_caption("No name game")
+
+
+new_working_directory = "C:/Users/USER.MSI/Documents/GitHub/PSP0101-ASSIGNMENT-/picture"
+os.chdir(new_working_directory)
+
+background_image = pygame.image.load("test.png")
+
+image_position = (0,0)
 #loop for pygame not closing in program
-running=True
-while running :
+running = True
+while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-#colour rgb
-green=(68,255,0)
-blue=(8,131,226)
+    # Update the display
+    screen.fill((8,131,226))
 
-screen.fill (green)
-pygame.display.update()
-
-X=500
-Y=500
-
-font1 = pygame.font.Font('Arial.ttf', 32)
-text= font1.render('Test',True, green, blue)
-textRect=text.get_rect()
-textRect.center=(X//2,Y//2)
+    screen.blit(background_image, image_position)
+    pygame.display.flip()
+    pygame.time.delay
 
 
+    pygame.quit
 
 
 
