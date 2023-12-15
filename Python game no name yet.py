@@ -1,5 +1,5 @@
 # *********************************************************
-# Program: YOUR_FILENAME.py
+# Program: Jump.py
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
 # Class: TL9L
 # Year: 2023/24 Trimester 1
@@ -15,13 +15,13 @@ import os
 import pygame
 from time import sleep
 
-#init the pygame
+#initiate the pygame
 pygame.init()
 
 screen=pygame.display.set_mode((800,600))
-pygame.display.set_caption("Jump Queen")
+pygame.display.set_caption("Jump")
 
-
+#directory for our game's picture
 new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
 #image of character
@@ -30,7 +30,8 @@ image_width = 150
 image_height = 200
 #control scale of character
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
-image_position = (50,50)
+#control position of character/image
+image_position = (280,250)
 
 
 #loop for pygame not closing in program(important)
