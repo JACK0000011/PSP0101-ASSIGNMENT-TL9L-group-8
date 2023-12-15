@@ -24,10 +24,12 @@ pygame.display.set_caption("Jump")
 #directory for our game's picture
 new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
+
 #image of character
 original_niniimage = pygame.image.load("test.png")
 image_width = 150
 image_height = 200
+
 #control scale of character
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
 #control position of character/image
