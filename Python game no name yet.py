@@ -24,12 +24,16 @@ pygame.display.set_caption("Jump Queen")
 
 new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
+#image of character
 original_niniimage = pygame.image.load("test.png")
 image_width = 150
 image_height = 200
+#control scale of character
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
 image_position = (50,50)
-#loop for pygame not closing in program
+
+
+#loop for pygame not closing in program(important)
 running = True
 while running:
     for event in pygame.event.get():
