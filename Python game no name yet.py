@@ -19,10 +19,10 @@ from time import sleep
 pygame.init()
 
 screen=pygame.display.set_mode((800,600))
-pygame.display.set_caption("No name game")
+pygame.display.set_caption("Jump Queen")
 
 
-new_working_directory = "C:/Users/USER.MSI/Documents/GitHub/PSP0101-ASSIGNMENT-/picture"
+new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
 original_niniimage = pygame.image.load("test.png")
 image_width = 150
