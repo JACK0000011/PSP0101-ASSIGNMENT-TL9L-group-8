@@ -13,7 +13,9 @@ import time
 import sys
 import os
 import pygame
+import keyboard
 from time import sleep
+from pygame. locals import*
 
 #initiate the pygame
 pygame.init()
@@ -24,33 +26,37 @@ pygame.display.set_caption("Jump")
 #directory for our game's picture
 new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
-
+x=250
+y=300
 #image of character
 original_niniimage = pygame.image.load("test.png")
-image_width = 150
-image_height = 200
+image_width = 250
+image_height = 300
 
 #control scale of character
 niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
 #control position of character/image
-image_position = (280,250)
-
-
+image_position = (x,y)
+#function for the character
+jumpkey=keyboard.press('space')
+def character():
+    if jumpkey[K_LEFT]:
+        x -= 8
+        
+    
 #loop for pygame not closing in program(important)
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+    character
     # Update the display
-    screen.fill((8,131,226))
-
-    screen.blit(niniimage, image_position)
-    pygame.display.flip()
-    pygame.time.delay
+    screen.blit(niniimage,(x,y))
+    pygame.display.update()
 
 
+    
     pygame.quit
 
 
