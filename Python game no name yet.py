@@ -24,7 +24,7 @@ screen=pygame.display.set_mode((1000,800))
 pygame.display.set_caption("Jump")
 
 #directory for our game's picture
-new_working_directory = "C:\pictures for multimedia assignment"
+new_working_directory = "C:\pictures for psp0101 assignment"
 os.chdir(new_working_directory)
 
 #image of character
