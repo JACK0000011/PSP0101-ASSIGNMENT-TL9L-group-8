@@ -19,42 +19,78 @@ from pygame. locals import*
 
 #initiate the pygame
 pygame.init()
-
-screen=pygame.display.set_mode((800,600))
+#fps setting
+CLOCK = pygame.time.Clock()
+screen=pygame.display.set_mode((1000,800))
 pygame.display.set_caption("Jump")
 
 #directory for our game's picture
 new_working_directory = "C:\pictures for multimedia assignment"
 os.chdir(new_working_directory)
-x=250
-y=300
+
 #image of character
 original_niniimage = pygame.image.load("test.png")
-image_width = 250
-image_height = 300
+ninijumping = pygame.image.load("test2.png")
+X_pos,Y_pos =(200,600)
+
+#physics of the game
+Jumping  = False
+Y_gravity = 1
+Jump_height = 10
+Y_velocity = Jump_height
+walking = False
+walkvelo = 1
+
+
+#image of background
+background1=pygame.image.load('background1.jpg')
 
 #control scale of character
-niniimage = pygame.transform.scale(original_niniimage, (image_width, image_height))
+image_width = 80
+image_height = 100
+ninistand = pygame.transform.scale(original_niniimage, (image_width, image_height))
+ninijumping = pygame.transform.scale(original_niniimage, (image_width, image_height))
+nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
+
 #control position of character/image
-image_position = (x,y)
+
+characterpos = X_pos,Y_pos
 #function for the character
-jumpkey=keyboard.press('space')
-def character():
-    if jumpkey[K_LEFT]:
-        x -= 8
+
         
-    
 #loop for pygame not closing in program(important)
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    character
-    # Update the display
-    screen.blit(niniimage,(x,y))
-    pygame.display.update()
+    
+    keys_pressed = pygame.key.get_pressed()
+    
+    if keys_pressed[pygame.K_SPACE]:
+        Jumping=True
 
+    # Update the display
+    screen.blit(background1,(0,200))
+    
+    #subtracting Y pos make character move up
+    if Jumping:
+        Y_pos -= Y_velocity
+        Y_velocity -= Y_gravity
+        #make sure the chac come down to ground
+        if Y_velocity <- Jump_height:
+            Jumping=False
+            Y_velocity = Jump_height
+        nini_rect=ninijumping.get_rect(center=(X_pos, Y_pos))
+        screen.blit(ninijumping,nini_rect)
+    else:
+        nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
+        screen.blit(ninistand,nini_rect)
+
+
+   
+    pygame.display.update()
+    CLOCK.tick(60)
 
     
     pygame.quit
