@@ -13,7 +13,6 @@ import time
 import sys
 import os
 import pygame
-import keyboard
 from time import sleep
 from pygame. locals import*
 
