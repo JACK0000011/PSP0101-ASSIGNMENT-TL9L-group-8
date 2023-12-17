@@ -31,15 +31,15 @@ os.chdir(new_working_directory)
 #image of character
 original_niniimage = pygame.image.load("test.png")
 ninijumping = pygame.image.load("test2.png")
-X_pos,Y_pos =(200,600)
+X_pos,Y_pos =(500,600)
 
 #physics of the game
 Jumping  = False
 Y_gravity = 1
 Jump_height = 10
 Y_velocity = Jump_height
-walking = False
-walkvelo = 1
+Walking = False
+Walkvelo = 1
 
 
 #image of background
@@ -77,7 +77,7 @@ while running:
     if Jumping:
         Y_pos -= Y_velocity
         Y_velocity -= Y_gravity
-        #make sure the chac come down to ground
+        #make sure the character come down to ground
         if Y_velocity <- Jump_height:
             Jumping=False
             Y_velocity = Jump_height
