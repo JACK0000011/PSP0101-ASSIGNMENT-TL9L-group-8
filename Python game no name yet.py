@@ -29,6 +29,7 @@ test_tile = pygame.sprite.Group(Tile((100,100),200))
 screen=pygame.display.set_mode((1200,800))
 pygame.display.set_caption("Jump")
 
+
 #directory for our game's picture
 new_working_directory = "C:\pictures for psp0101 assignment"
 os.chdir(new_working_directory)
