@@ -88,6 +88,8 @@ while running:
 
 
    
+            
+
     pygame.display.update()
     CLOCK.tick(60)
 
