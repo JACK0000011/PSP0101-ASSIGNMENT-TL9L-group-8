@@ -17,7 +17,7 @@ from tiles import Tile
 from time import sleep
 from pygame.locals import*
 from levels import Level
-from settings import level_map
+from settings import *
 
 #initiate the pygame
 pygame.init()
@@ -25,8 +25,8 @@ pygame.init()
 
 #fps setting and main display
 CLOCK = pygame.time.Clock()
-test_tile = pygame.sprite.Group(Tile((100,100),200))
-screen=pygame.display.set_mode((1200,800))
+test_tile = pygame.sprite.Group(Tile((100,100),250))
+screen=pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jump")
 
 #creating the map
