@@ -13,14 +13,20 @@ import time
 import sys
 import os
 import pygame
+from tiles import Tile
 from time import sleep
-from pygame. locals import*
+from pygame.locals import*
+from levels import Level
+from settings import level_map
 
 #initiate the pygame
 pygame.init()
-#fps setting
+
+
+#fps setting and main display
 CLOCK = pygame.time.Clock()
-screen=pygame.display.set_mode((1000,800))
+test_tile = pygame.sprite.Group(Tile((100,100),200))
+screen=pygame.display.set_mode((1200,800))
 pygame.display.set_caption("Jump")
 
 #directory for our game's picture
