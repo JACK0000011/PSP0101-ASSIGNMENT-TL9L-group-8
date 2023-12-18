@@ -29,6 +29,10 @@ test_tile = pygame.sprite.Group(Tile((100,100),200))
 screen=pygame.display.set_mode((1200,800))
 pygame.display.set_caption("Jump")
 
+#creating the map
+level = Level(level_map,screen)
+
+
 
 #directory for our game's picture
 new_working_directory = "C:\pictures for psp0101 assignment"
@@ -44,19 +48,23 @@ Jumping  = False
 Y_gravity = 1
 Jump_height = 10
 Y_velocity = Jump_height
-Walking = False
-Walkvelo = 1
+Walkright = False
+Walkleft = False
+Walkvelo = 0
+X_pos -= Walkvelo
+X_pos += Walkvelo
+
 
 
 #image of background
-background1=pygame.image.load('background1.jpg')
+# background1=pygame.image.load('background1.jpg')
 
 #control scale of character
-image_width = 80
-image_height = 100
-ninistand = pygame.transform.scale(original_niniimage, (image_width, image_height))
-ninijumping = pygame.transform.scale(original_niniimage, (image_width, image_height))
-nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
+# image_width = 80
+# image_height = 100
+# ninistand = pygame.transform.scale(original_niniimage, (image_width, image_height))
+# ninijumping = pygame.transform.scale(original_niniimage, (image_width, image_height))
+# nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
 
 #control position of character/image
 
@@ -71,31 +79,41 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
-    keys_pressed = pygame.key.get_pressed()
+    keys = pygame.key.get_pressed()
     
-    if keys_pressed[pygame.K_SPACE]:
+    
+    if keys[pygame.K_SPACE]:
         Jumping=True
+    
+    
 
     # Update the display
-    screen.blit(background1,(0,200))
+    # screen.blit(background1,(0,200))
     
-    #subtracting Y pos make character move up
-    if Jumping:
-        Y_pos -= Y_velocity
-        Y_velocity -= Y_gravity
-        #make sure the character come down to ground
-        if Y_velocity <- Jump_height:
-            Jumping=False
-            Y_velocity = Jump_height
-        nini_rect=ninijumping.get_rect(center=(X_pos, Y_pos))
-        screen.blit(ninijumping,nini_rect)
-    else:
-        nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
-        screen.blit(ninistand,nini_rect)
-
-
-   
+    #subtracting Y pos make character move up (Jumping)
+    # if Jumping:
+    #     Y_pos -= Y_velocity
+    #     Y_velocity -= Y_gravity
+    #     #make sure the character come down to ground
+    #     if Y_velocity <- Jump_height:
+    #         Jumping=False
+    #         Y_velocity = Jump_height
+    #     nini_rect=ninijumping.get_rect(center=(X_pos, Y_pos))
+    #     screen.blit(ninijumping,nini_rect)
+    # else:
+    #     nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
+    #     screen.blit(ninistand,nini_rect)
+    
+    #making the character moving horizontally
+    
+    
             
+
+
+    screen.fill('Black')
+    level.run()
+    
+    
 
     pygame.display.update()
     CLOCK.tick(60)
