@@ -43,21 +43,13 @@ ninijumping = pygame.image.load("test2.png")
 X_pos,Y_pos =(500,600)
 
 
-
-#image of background
-# background1=pygame.image.load('background1.jpg')
-
-
-
-#function for the character
-
-        
+    
 #loop for pygame not closing in program(important)
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False
+            running = False        
     
     
 

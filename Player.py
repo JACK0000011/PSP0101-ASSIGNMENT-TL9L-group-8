@@ -1,5 +1,5 @@
 import pygame
-from pygame.sprite import Group
+import sys
 import time
 
 #creating player sprite for game
@@ -12,9 +12,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = pos)
 
         #physics of player
-        self.jump_velocity = -16
+        self.jump_velocity = -10
         self.speed = 5
-        self.gravity = 0.5
+        self.gravity = 1.2
 
         #control movement using vector
         #vector2 = (x,y)two arguments
@@ -26,6 +26,7 @@ class Player(pygame.sprite.Sprite):
         keys = pygame.key.get_pressed()
         
         
+        
         if keys[pygame.K_d]:
             self.direction.x = 1
 
@@ -34,23 +35,27 @@ class Player(pygame.sprite.Sprite):
 
         elif keys[pygame.K_SPACE]:
             self.jump()
+
+            
+        
             
 
         else:
             self.direction.x = 0
            
-
+    #apply a gravity to make player fall back
     def apply_grav (self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
+        
 
     def jump(self):
         self.direction.y = self.jump_velocity
+        time.sleep (2)
 
 
     def update(self):
         self.get_input()
-        self.rect.x += self.direction.x * self.speed     
-        self.apply_grav()
+        
         
     
