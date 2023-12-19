@@ -1,4 +1,3 @@
-# *********************************************************
 # Program: Jump.py
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
 # Class: TL9L
@@ -43,28 +42,12 @@ original_niniimage = pygame.image.load("test.png")
 ninijumping = pygame.image.load("test2.png")
 X_pos,Y_pos =(500,600)
 
-#physics of the game
-Jumping  = False
-Y_gravity = 1
-Jump_height = 10
-Y_velocity = Jump_height
-Walkright = False
-Walkleft = False
-Walkvelo = 0
-X_pos -= Walkvelo
-X_pos += Walkvelo
-
 
 
 #image of background
 # background1=pygame.image.load('background1.jpg')
 
-#control scale of character
-# image_width = 80
-# image_height = 100
-# ninistand = pygame.transform.scale(original_niniimage, (image_width, image_height))
-# ninijumping = pygame.transform.scale(original_niniimage, (image_width, image_height))
-# nini_rect = ninistand.get_rect(center=(X_pos, Y_pos))
+
 
 #control position of character/image
 

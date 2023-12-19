@@ -1,11 +1,13 @@
 import pygame
 from tiles import Tile
 from settings import tile_size
+from Player import Player
 
 class Level:
     def __init__(self,level_data,surface):
         self.display_surface = surface 
         self.setup_level(level_data)
+        self.world_shift=(0)
     
     #numerate the row and column into number to show the tile position
     def setup_level(self,layout):
@@ -24,8 +26,13 @@ class Level:
                     tile= Tile((x,y),tile_size)
                     self.tiles.add(tile)
                 if col == "P":              
-                     player_sprite=player((x,y),)
+                     player_sprite=Player((x,y),)
                      self.player.add(player_sprite)
+    
+
+        
+
+
 
     #make the world shift
     def run(self):
@@ -35,4 +42,6 @@ class Level:
         self.tiles.draw(self.display_surface)
 
         #player update
+        self.player.update()
         self.player.draw(self.display_surface)
+       
