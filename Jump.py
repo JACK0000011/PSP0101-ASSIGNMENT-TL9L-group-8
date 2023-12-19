@@ -1,3 +1,4 @@
+# *********************************************************
 # Program: Jump.py
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
 # Class: TL9L
@@ -13,10 +14,9 @@ import sys
 import os
 import pygame
 from tiles import Tile
-from time import sleep
 from pygame.locals import*
-from levels import Level
 from settings import *
+from levels import Level
 
 #initiate the pygame
 pygame.init()
@@ -49,9 +49,6 @@ X_pos,Y_pos =(500,600)
 
 
 
-#control position of character/image
-
-characterpos = X_pos,Y_pos
 #function for the character
 
         
@@ -61,12 +58,6 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    
-    keys = pygame.key.get_pressed()
-    
-    
-    if keys[pygame.K_SPACE]:
-        Jumping=True
     
     
 

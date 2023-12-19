@@ -21,7 +21,7 @@ level_map =[
 '      XXX                        ',
 'XXXXXXXXXX    XXXXX              ',
 '                                 ',
-'P                                ',
+'    P                            ',
 ' XXXX     XXXXX   XXX   XXXXXXX  ',
 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',]
 

@@ -30,8 +30,6 @@ class Level:
                      self.player.add(player_sprite)
     
 
-        
-
 
 
     #make the world shift
