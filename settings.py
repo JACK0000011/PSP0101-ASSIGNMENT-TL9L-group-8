@@ -1,6 +1,6 @@
 
 #using X to represent position of each tiles
-level_map =[
+level_map1 =[
 '                                 ',
 '    XXXX      XXXXXXXXXX         ',
 '                                 ',
@@ -21,10 +21,10 @@ level_map =[
 '      XXX                        ',
 'XXXXXXXXXX    XXXXX              ',
 '                                 ',
-'    P                            ',
-' XXXX     XXXXX   XXX   XXXXXXX  ',
+'                                 ',
+'   P       XXXXX   XXX   XXXXXX  ',
 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',]
 
 tile_size = 32
 screen_width = 1000
-screen_height = len(level_map)* tile_size
+screen_height = len(level_map1)* tile_size

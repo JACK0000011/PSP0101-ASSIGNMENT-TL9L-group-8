@@ -33,13 +33,6 @@ class Player(pygame.sprite.Sprite):
         elif keys[pygame.K_a]:
             self.direction.x = -1
 
-        elif keys[pygame.K_SPACE]:
-            self.jump()
-
-            
-        
-            
-
         else:
             self.direction.x = 0
            
@@ -50,12 +43,23 @@ class Player(pygame.sprite.Sprite):
         
 
     def jump(self):
-        self.direction.y = self.jump_velocity
-        time.sleep (2)
+        jumping=False
+        jump_height = 0
+        keys=pygame.key.get_pressed()
+        if keys[pygame.K_SPACE] and not jumping:
+            print('jumping')
+            self.direction.y = self.jump_velocity
+            jump_height = self.rect.y
+            jumping = True
+        
+        if jump_height >= self.jump_velocity:
+            self.rect.y += 5
+            jumping = False
+            time.sleep(0.1)
+            print('stop jumping')
 
 
     def update(self):
         self.get_input()
+        self.jump()
         
-        
-    
