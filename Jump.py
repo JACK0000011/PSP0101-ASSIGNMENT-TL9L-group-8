@@ -16,6 +16,10 @@ from tiles import Tile
 from pygame.locals import*
 from settings import *
 from levels import Level
+from player import Player
+
+
+
 
 #initiate the pygame
 pygame.init()
@@ -41,13 +45,13 @@ os.chdir(new_working_directory)
 #loop for pygame not closing in program(important)
 running = True
 while running:
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            running = False 
-         
-       
+            running = False
 
+
+    
 
     screen.fill('Black')
     level.run()

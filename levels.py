@@ -7,6 +7,7 @@ class Level:
     def __init__(self,level_data,surface):
         self.display_surface = surface 
         self.setup_level(level_data)
+        #default value for the world shifting
         self.world_shift=(0)
     
   #setting up level for the game
@@ -18,6 +19,7 @@ class Level:
         #numerate the row and column into number to show the tile position
         for row_index,row in enumerate(layout):
             for col_index,col in enumerate(row):
+                #for showing exact coordinate for the player
                 print(f'{row_index},{col_index}:{col}')
 
                 #placing tile according to maps
@@ -29,6 +31,13 @@ class Level:
                 if col == "P":              
                      player_sprite=Player((x,y),)
                      self.player.add(player_sprite)
+    # def scroll_y(self):
+    #     player=self.player.sprite
+    #     player_y=player.rect.centery
+    #     direction_y=player.direction.y
+    #     if player_y <-500:
+    #         self.world_shift = -8
+            
 
     #collide with tiles horizontally and stop the player
     def horizontal_collide(self):
@@ -43,6 +52,7 @@ class Level:
                 #checking if collide with right
                 elif player.direction.x > 0:
                     player.rect.right = sprite.rect.right
+                    
     #collide with tiles vertivally and stop the player
     def vertical_collide (self):
         player = self.player.sprite
@@ -74,7 +84,9 @@ class Level:
 
         #player update
         self.player.update()
+        self.tiles.update(self.world_shift)
         self.horizontal_collide()
         self.vertical_collide()
         self.player.draw(self.display_surface)
-       
+    
+
