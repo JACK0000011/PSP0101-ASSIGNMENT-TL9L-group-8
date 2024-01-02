@@ -1,12 +1,13 @@
 
 #using X to represent position of each tiles
 level_map1 =[
-'    XXXX      XXXXXXXXXX         ',
 '                                 ',
-'    XXXX      XXXXXXXXXX         ',
+'              XXXXXXXXXX         ',
+'                                 ',
+'    XXXX    XXXXXXXXXXXX         ',
 '                                 ',
 '                                 ',
-'                     XXXXX       ',
+'     XX                XXXXX     ',
 '                                 ',
 '                                 ',
 '          XXXXXX                 ',
@@ -14,16 +15,16 @@ level_map1 =[
 '                                 ',
 '                                 ',
 '                                 ',
-'         XXXXXX                  ',
+'       XXXX                      ',
 '                                 ',
 '                                 ',
-'               XXXXXXXX          ',
+'                   XXXX          ',
 '                                 ',
-'      XXX                        ',
+'     XXXX                        ',
 'XXXXXXXXXX    XXXXX              ',
 '                                 ',
 '                                 ',
-' P         XXXXX   XXX   XXXXXX  ',
+' P        XXXXXX   XXX   XXXXXX  ',
 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',]
 
 tile_size = 32

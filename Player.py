@@ -10,11 +10,11 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.Surface((32,32))
         self.image.fill('blue')
         self.rect = self.image.get_rect(topleft = pos)
-
+        self.jump_state =20
         #physics of player
-        self.jump_velocity = -20
+        self.jump_velocity = -45
         self.speed = 5
-        self.gravity = 5
+        self.gravity = 4.5
 
         #control movement using vector
         #vector2 = (x,y)two arguments
@@ -24,7 +24,7 @@ class Player(pygame.sprite.Sprite):
     
     def get_input(self):
         keys = pygame.key.get_pressed()
-        self.jump_state =False
+        
         if keys[pygame.K_d]:
             self.direction.x = 1
 
@@ -35,12 +35,12 @@ class Player(pygame.sprite.Sprite):
             self.direction.x = 0
 
         if keys[pygame.K_SPACE]:
-            self.jump_state =True
-        else:
-            self.jump_state=False
-            print("Jump ready")
-            if not self.jump_state:
-                print('jump')
+            self.jump_state +=1
+            print(f'{self.jump_state}')
+        if self.jump_state >= 25:
+            self.direction.y = self.jump_velocity
+            self.jump_state =0
+            print(f'{self.jump_state}') 
             
            
     #apply a gravity to make player fall back
