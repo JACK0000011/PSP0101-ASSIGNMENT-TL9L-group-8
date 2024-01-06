@@ -17,10 +17,7 @@ from pygame.locals import*
 from settings import *
 from levels import Level
 from player import Player
-
-
-
-
+import Jump
 #initiate the pygame
 pygame.init()
 
@@ -32,15 +29,15 @@ screen=pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jump")
 
 #creating the map
-level = Level(level_map1,screen)
-
+level1 = Level(level_map1,screen)
+level2 = Level(level_map2,screen)
 
 
 #directory for our game's picture
 new_working_directory = "C:\pictures for psp0101 assignment"
 os.chdir(new_working_directory)
 
-#image of characterdd adad
+
     
 #loop for pygame not closing in program(important)
 running = True
@@ -54,7 +51,9 @@ while running:
     
 
     screen.fill('Black')
-    level.run()
+    level1.run()
+    # if self.rect.y
+    #     level2.run()
     
 
     

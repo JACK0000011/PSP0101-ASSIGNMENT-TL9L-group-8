@@ -33,20 +33,21 @@ class Player(pygame.sprite.Sprite):
 
         else:
             self.direction.x = 0
-
+    #mechanics of adding number to prevent player jumping infinitely and provide enought time for gravity to act
         if keys[pygame.K_SPACE]:
             self.jump_state +=1
             print(f'{self.jump_state}')
-        if self.jump_state >= 25:
+        if self.jump_state >= 20:
             self.direction.y = self.jump_velocity
             self.jump_state =0
-            print(f'{self.jump_state}') 
+            
             
            
     #apply a gravity to make player fall back
     def apply_grav (self):
         self.direction.y += self.gravity
         self.rect.y += self.direction.y
+        print(f"{self.rect.y}")
         
 
     def jump(self):
