@@ -15,6 +15,7 @@ pygame.display.set_caption("Jail break Jump")
 tile_size = 50
 back_img = pygame.image.load('pictures/background2.jpg')
 grey_img = pygame.image.load('pictures/stone.jpg')
+replay_img = pygame.image.load('pictures/replay.png')
 
 #drawing a grid for each tile
 def draw_grid():
