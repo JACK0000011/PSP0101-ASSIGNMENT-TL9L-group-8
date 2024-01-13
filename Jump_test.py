@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import *
+from world_data import *
 import pickle
 from os import path
 
@@ -17,7 +18,7 @@ main_menu = True
 level=1
 game_over = 0
 tile_size = 50
-max_levels = 10
+max_level = 10
 
 #setting the image
 back_img = pygame.image.load('pictures/background2.jpg')
@@ -30,19 +31,19 @@ portal_img = pygame.image.load('pictures/portal.jpg')
 def reset_level(level):
      player.reset(100,screen_height - 130)
      portal_group.empty()
-     # load in level data and create world
-     if path.exists(f'level_{level}.data'):
-          pickle_in = open (f'level_{level}.data','rb')
-          world_data = pickle.load(pickle_in)
-     world=World(world_data)
+
+     # if path.exists(f'level_{level}.data'):
+     #      pickle_in = open (f'level_{level}.data','rb')
+     #      world_data = pickle.load(pickle_in)
+     # world=World(world_data)
 
      return world
 
-# #drawing a grid for each tile(not using this in actual game)
-# def draw_grid():
-# 	for line in range(0, 20):
-# 		pygame.draw.line(screen, (255, 255, 255), (0, line * tile_size), (screen_width, line * tile_size))
-# 		pygame.draw.line(screen, (255, 255, 255), (line * tile_size, 0), (line * tile_size, screen_height))
+#drawing a grid for each tile
+def draw_grid():
+	for line in range(0, 20):
+		pygame.draw.line(screen, (255, 255, 255), (0, line * tile_size), (screen_width, line * tile_size))
+		pygame.draw.line(screen, (255, 255, 255), (line * tile_size, 0), (line * tile_size, screen_height))
           
 class Button():
      def __init__(self,x,y,image):
@@ -82,7 +83,6 @@ class Player():
 
           dx = 0
           dy = 0
-          
                #detect if key is pressed
           if game_over == 0:   
                key = pygame.key.get_pressed()
@@ -147,6 +147,11 @@ class Player():
                self.rect.x += dx
                self.rect.y += dy
 
+               
+
+
+
+
                screen.blit(self.image,self.rect)
                pygame.draw.rect(screen,(255,255,255),self.rect,2)
 
@@ -208,10 +213,10 @@ portal_group = pygame.sprite.Group()
 #instance for Player
 player = Player(100,screen_height-130)
 
-if path.exists(f'level_{level}.data'):
-     pickle_in = open (f'level_{level}.data','rb')
-     world_data = pickle.load(pickle_in)
-world=World(world_data)
+# if path.exists(f'level_{level}.data'):
+#      pickle_in = open (f'level_{level}.data','rb')
+#      world_data = pickle.load(pickle_in)
+world=World(world_data_4)
      
 
 
@@ -234,28 +239,7 @@ while run :
     else:
          world.draw()
          player.update(game_over)
-         portal_group.draw(screen)
-          
-         game_over = player.update(game_over) 
-          #if the player has died
-         if game_over == -1:
-              if replay_button.draw():
-                   player.reset(100,screen_height -130)
-                   game_over = 0
-
-          #if the player has completed the level
-         if game_over == 1:
-           #reset the game and go to next level
-              level +=1
-              if level <= max_levels:
-                   #reset level
-                   world_data=[]
-                   world=reset_level(level)
-                   game_over = 0
-              else:
-                   #restart game
-                   pass   
-
+         portal_group.draw(screen) 
               
          
     for event in pygame.event.get():
