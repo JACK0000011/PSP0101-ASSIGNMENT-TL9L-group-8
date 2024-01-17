@@ -20,7 +20,7 @@ tile_size = 50
 max_levels = 10
 
 #setting the image
-back_img = pygame.image.load('pictures/background2.jpg')
+back_img = pygame.image.load('pictures/prison2.jpg')
 grey_img = pygame.image.load('pictures/stone.jpg')
 replay_img = pygame.image.load('pictures/replay.png')
 play_img = pygame.image.load('pictures/play.png')
@@ -76,12 +76,33 @@ class Button():
 class Player():
      def __init__(self,x,y) :
           self.reset(x,y)
+          self.images_right = []
+          self.images_left = []
+          self.index = 0
+          self.counter = 0
+          for num in range(1, 3):
+               img_right = pygame.image.load(f'pictures/walking{num}.png')
+               img_right = pygame.transform.scale(img_right,(40,80))
+               img_left = pygame.transform.flip(img_right, True, False)
+               self.images_right.append(img_right)
+               self.images_left.append(img_left)
+               self.image = self.images_right[self.index]
+          self.rect = self.image.get_rect()
+          self.rect.x =x 
+          self.rect.y =y
+          self.width= self.image.get_width()
+          self.height= self.image.get_height()
+          self.velo_y = 0
+          self.jump_state = 0
+          self.jumped = False
+          self.direction = 0
 
      #updating the player movement
      def update (self,game_over):
 
           dx = 0
           dy = 0
+          walk_cooldown = 10
           
                #detect if key is pressed
           if game_over == 0:   
@@ -109,14 +130,33 @@ class Player():
                if key [pygame.K_a]:
                     dx -=2
                     self.sprint = False
+                    self.counter += 1
+                    self.direction = -1
                if key [pygame.K_d]:
                     dx += 2
                     self.sprint = False
+                    self.counter += 1
+                    self.direction = 1
                #adding gravity to player
                self.velo_y += 1
                if self.velo_y > 10:
                     self.velo_y = 10
-               dy += self.velo_y          
+               dy += self.velo_y         
+               if key[pygame.K_a] == False and key[pygame.K_d] == False :
+                    self.counter = 0
+                    self.index = 0
+                    self.image = self.images_right[self.index] 
+
+               # handle animation
+               if self.counter > walk_cooldown:
+                     self.counter = 0
+                     self.index += 1
+               if self.index >= len(self.images_right):
+                    self.index = 0
+               if self.direction == 1:
+                    self.image = self.images_right[self.index]
+               if self.direction == -1:
+                    self.image = self.images_left[self.index]     
 
                #check for collision 
                self.in_air = True
