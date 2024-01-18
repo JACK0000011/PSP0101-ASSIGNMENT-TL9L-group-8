@@ -102,7 +102,7 @@ class Player():
 
           dx = 0
           dy = 0
-          walk_cooldown = 10
+          walk_cooldown = 15
           
                #detect if key is pressed
           if game_over == 0:   
