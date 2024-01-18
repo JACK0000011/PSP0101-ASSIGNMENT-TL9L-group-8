@@ -1,6 +1,6 @@
 import pygame
 from pygame.locals import *
-from world_data import *
+from world_data_editor import *
 import pickle
 from os import path
 
@@ -216,7 +216,7 @@ player = Player(100,screen_height-130)
 # if path.exists(f'level_{level}.data'):
 #      pickle_in = open (f'level_{level}.data','rb')
 #      world_data = pickle.load(pickle_in)
-world=World(world_data_4)
+world=World(world_data_9)
      
 
 
