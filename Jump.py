@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 fps=60
 screen_width = 1000
 screen_height = 800
+text_screen = pygame.display.set_mode((screen_width , screen_height))
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jail break Jump")
 
@@ -20,13 +21,21 @@ tile_size = 50
 max_levels = 10
 
 #setting the image
-back_img = pygame.image.load('pictures/background2.jpg')
+back_img = pygame.image.load('pictures/prison2.jpg')
 grey_img = pygame.image.load('pictures/stone.jpg')
 replay_img = pygame.image.load('pictures/replay.png')
 play_img = pygame.image.load('pictures/play.png')
 exit_img = pygame.image.load('pictures/exit.png')
 portal_img = pygame.image.load('pictures/portal.jpg')
 
+#text_font
+text_font = pygame.font.SysFont('Arial',30 )
+
+def draw_text(text, font, text_col, x, y):
+     img = font.render(text, True, text_col)
+     screen.blit(img, (x, y))
+
+     
 def reset_level(level):
      player.reset(100,screen_height - 130)
      portal_group.empty()
@@ -52,6 +61,7 @@ class Button():
           self.rect.y = y 
           self.clicked = False
           
+          
 
      def draw(self):
           action = False
@@ -76,12 +86,33 @@ class Button():
 class Player():
      def __init__(self,x,y) :
           self.reset(x,y)
+          self.images_right = []
+          self.images_left = []
+          self.index = 0
+          self.counter = 0
+          for num in range(1, 3):
+               img_right = pygame.image.load(f'pictures/walking{num}.png')
+               img_right = pygame.transform.scale(img_right,(40,80))
+               img_left = pygame.transform.flip(img_right, True, False)
+               self.images_right.append(img_right)
+               self.images_left.append(img_left)
+               self.image = self.images_right[self.index]
+          self.rect = self.image.get_rect()
+          self.rect.x =x 
+          self.rect.y =y
+          self.width= self.image.get_width()
+          self.height= self.image.get_height()
+          self.velo_y = 0
+          self.jump_state = 0
+          self.jumped = False
+          self.direction = 0
 
      #updating the player movement
      def update (self,game_over):
 
           dx = 0
           dy = 0
+          walk_cooldown = 10
           
                #detect if key is pressed
           if game_over == 0:   
@@ -102,9 +133,13 @@ class Player():
                if key[pygame.K_a] and key[pygame.K_LSHIFT]:
                     dx -=3
                     self.sprint = True
+                    self.counter += 1
+                    self.direction = -1
                if key[pygame.K_d] and key[pygame.K_LSHIFT]:
                     dx +=3
                     self.sprint = True
+                    self.counter += 1
+                    self.direction = 1
                #horizontal movement
                if key [pygame.K_a]:
                     dx -=2
@@ -116,7 +151,22 @@ class Player():
                self.velo_y += 1
                if self.velo_y > 10:
                     self.velo_y = 10
-               dy += self.velo_y          
+               dy += self.velo_y
+               if key[pygame.K_a] == False and key[pygame.K_d] == False :
+                    self.counter = 0
+                    self.index = 0
+                    self.image = self.images_right[self.index] 
+
+               # handle animation
+               if self.counter > walk_cooldown:
+                     self.counter = 0
+                     self.index += 1
+               if self.index >= len(self.images_right):
+                    self.index = 0
+               if self.direction == 1:
+                    self.image = self.images_right[self.index]
+               if self.direction == -1:
+                    self.image = self.images_left[self.index]               
 
                #check for collision 
                self.in_air = True
@@ -135,13 +185,15 @@ class Player():
                               dy = tile[1].top -self.rect.bottom
                               self.velo_y = 0
                               self.in_air = False
+                         
                     #determine if a player is collide with portal and change his level
                     if pygame.sprite.spritecollide(self,portal_group,False):
                               game_over = 1
-
-                    #           print('changing level')
-                    
-                         
+                  #           print('changing level')          
+              
+               y_threshold = screen_height + 100
+               if self.rect.y > y_threshold :
+                    game_over = -1
 
                #update player position
                self.rect.x += dx
@@ -221,47 +273,72 @@ play_button = Button(screen_width // 2 - 350 , screen_height // 2 , play_img)
 exit_button = Button(screen_width // 2 + 150 , screen_height // 2 , exit_img) 
 
 run = True
+#variable to control when to display the text
+show_text = False 
+tex_start_time = 0 #store time when the text is shown
+
 while run :
     clock.tick(fps)
     screen.blit(back_img,(0,0))
-    
- 
+
     if main_menu == True:
       if exit_button.draw():
            run = False
       if play_button.draw():
            main_menu = False
+           show_text = True #set show_text to true when play is clicked
     else:
          world.draw()
          player.update(game_over)
          portal_group.draw(screen)
           
-         game_over = player.update(game_over) 
+         
           #if the player has died
          if game_over == -1:
-              if replay_button.draw():
-                   player.reset(100,screen_height -130)
-                   game_over = 0
+            replay_action = replay_button.draw()
 
+            if replay_action : 
+               level = 1
+               world_data = [] 
+               world = reset_level(level)
+               player.reset(100,screen_height -130)
+               game_over = 0
+ 
+         else :
+              game_over = player.update(game_over) 
           #if the player has completed the level
-         if game_over == 1:
+              if game_over == 1:
            #reset the game and go to next level
-              level +=1
-              if level <= max_levels:
+                  level +=1
+                  if level <= max_levels:
                    #reset level
                    world_data=[]
                    world=reset_level(level)
                    game_over = 0
-              else:
+                  else:
                    #restart game
-                   pass   
+                     pass 
 
-              
+    if show_text:
+     #display text after play button is clicked 
+     texts = [
+          "Welcome to Jail Breaker Jump!",
+          "Press 'A' to move left", 
+          "Press 'D' to move right",
+          "Press 'Space' to jump" ,
+          "Press 'Shift' to  dsah"
+     ]
+     for text in texts :
+        draw_text(text, text_font, (255, 255, 255), 155, 50 + texts.index(text)*40) 
+     #check if 15s have passed since that the text was shown
+     current_time = pygame.time.get_ticks()
+     if current_time - tex_start_time >= 15000 :
+          show_text = False
          
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+    
     pygame.display.update()
     
 pygame.quit
