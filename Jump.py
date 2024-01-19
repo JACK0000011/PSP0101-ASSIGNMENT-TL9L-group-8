@@ -9,6 +9,7 @@ clock = pygame.time.Clock()
 fps=60
 screen_width = 1000
 screen_height = 800
+text_screen = pygame.display.set_mode((screen_width , screen_height))
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jail break Jump")
 
@@ -27,6 +28,14 @@ play_img = pygame.image.load('pictures/play.png')
 exit_img = pygame.image.load('pictures/exit.png')
 portal_img = pygame.image.load('pictures/portal.jpg')
 
+#text_font
+text_font = pygame.font.SysFont('Arial',30 )
+
+def draw_text(text, font, text_col, x, y):
+     img = font.render(text, True, text_col)
+     screen.blit(img, (x, y))
+
+     
 def reset_level(level):
      player.reset(100,screen_height - 130)
      portal_group.empty()
@@ -51,6 +60,7 @@ class Button():
           self.rect.x =  x
           self.rect.y = y 
           self.clicked = False
+          
           
 
      def draw(self):
@@ -95,14 +105,14 @@ class Player():
           self.velo_y = 0
           self.jump_state = 0
           self.jumped = False
-          self.direction = 0
+          self.direction = 0 
 
      #updating the player movement
      def update (self,game_over):
 
           dx = 0
           dy = 0
-          walk_cooldown = 15
+          walk_cooldown = 10
           
                #detect if key is pressed
           if game_over == 0:   
@@ -113,7 +123,7 @@ class Player():
                     self.jump_state = 0
                     self.jumped = True
                     if self.sprint:
-                         self.velo_y = -20
+                         self.velo_y = -18
           
                if key[pygame.K_SPACE]  == False:
                     self.jump_state += 1
@@ -123,9 +133,13 @@ class Player():
                if key[pygame.K_a] and key[pygame.K_LSHIFT]:
                     dx -=3
                     self.sprint = True
+                    self.counter += 1
+                    self.direction = -1
                if key[pygame.K_d] and key[pygame.K_LSHIFT]:
                     dx +=3
                     self.sprint = True
+                    self.counter += 1
+                    self.direction = 1
                #horizontal movement
                if key [pygame.K_a]:
                     dx -=2
@@ -133,30 +147,32 @@ class Player():
                     self.counter += 1
                     self.direction = -1
                if key [pygame.K_d]:
-                    dx += 2
+                    dx +=2
                     self.sprint = False
                     self.counter += 1
                     self.direction = 1
                #adding gravity to player
-               self.velo_y += 1
+               self.velo_y +=0.9
                if self.velo_y > 10:
                     self.velo_y = 10
-               dy += self.velo_y         
+               dy += self.velo_y
                if key[pygame.K_a] == False and key[pygame.K_d] == False :
                     self.counter = 0
                     self.index = 0
                     self.image = self.images_right[self.index] 
 
+
                # handle animation
                if self.counter > walk_cooldown:
-                     self.counter = 0
-                     self.index += 1
+                    self.counter = 0
+                    self.index = 0
+                    self.image = +1
                if self.index >= len(self.images_right):
                     self.index = 0
                if self.direction == 1:
                     self.image = self.images_right[self.index]
                if self.direction == -1:
-                    self.image = self.images_left[self.index]     
+                    self.image = self.images_left[self.index]  
 
                #check for collision 
                self.in_air = True
@@ -175,20 +191,22 @@ class Player():
                               dy = tile[1].top -self.rect.bottom
                               self.velo_y = 0
                               self.in_air = False
+                         
                     #determine if a player is collide with portal and change his level
                     if pygame.sprite.spritecollide(self,portal_group,False):
                               game_over = 1
-
-                    #           print('changing level')
-                    
-                         
+                  #           print('changing level')          
+              
+               y_threshold = screen_height + 100
+               if self.rect.y > y_threshold :
+                    game_over = -1
 
                #update player position
                self.rect.x += dx
                self.rect.y += dy
 
                screen.blit(self.image,self.rect)
-               pygame.draw.rect(screen,(255,255,255),self.rect,2)
+               
 
                return game_over
 
@@ -231,7 +249,7 @@ class World():
       def draw(self):
         for tile in self.tile_list:
             screen.blit( tile[0],tile[1])
-            pygame.draw.rect(screen,(255,255,255),tile[1],2)
+            
 #create a class for portal
 class Portal(pygame.sprite.Sprite):
           def __init__(self,x,y):
@@ -256,52 +274,77 @@ world=World(world_data)
 
 
 #create buttons
-replay_button = Button(screen_width // 2 - 50 , screen_height // 2 + 100 , replay_img)
+replay_button = Button(screen_width // 2 - 70 , screen_height // 2 + 100 , replay_img)
 play_button = Button(screen_width // 2 - 350 , screen_height // 2 , play_img)
 exit_button = Button(screen_width // 2 + 150 , screen_height // 2 , exit_img) 
 
 run = True
+#variable to control when to display the text
+show_text = False 
+tex_start_time = 0 #store time when the text is shown
+
 while run :
     clock.tick(fps)
     screen.blit(back_img,(0,0))
-    
- 
+
     if main_menu == True:
       if exit_button.draw():
            run = False
       if play_button.draw():
            main_menu = False
+           show_text = True #set show_text to true when play is clicked
     else:
          world.draw()
          player.update(game_over)
          portal_group.draw(screen)
           
-         game_over = player.update(game_over) 
+         
           #if the player has died
          if game_over == -1:
-              if replay_button.draw():
-                   player.reset(100,screen_height -130)
-                   game_over = 0
+            replay_action = replay_button.draw()
 
+            if replay_action : 
+               level = 1
+               world_data = [] 
+               world = reset_level(level)
+               player.reset(100,screen_height -130)
+               game_over = 0
+ 
+         else :
+              game_over = player.update(game_over) 
           #if the player has completed the level
-         if game_over == 1:
+              if game_over == 1:
            #reset the game and go to next level
-              level +=1
-              if level <= max_levels:
+                  level +=1
+                  if level <= max_levels:
                    #reset level
                    world_data=[]
                    world=reset_level(level)
                    game_over = 0
-              else:
+                  else:
                    #restart game
-                   pass   
+                     pass 
 
-              
+    if show_text:
+     #display text after play button is clicked 
+     Tutorial_text = [
+          "Welcome to Jail Breaker Jump!",
+          "Press 'A' to move left", 
+          "Press 'D' to move right",
+          "Press 'Space' to jump" ,
+          "Press 'Shift' to sprinte and jump further"
+     ]
+     for text in Tutorial_text :
+        draw_text(text, text_font, (255, 255, 255), 155, 50 + Tutorial_text.index(text)*40) 
+     #check if 15s have passed since that the text was shown
+     current_time = pygame.time.get_ticks()
+     if current_time - tex_start_time >= 15000 :
+          show_text = False
          
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-
+    
     pygame.display.update()
     
 pygame.quit
