@@ -105,6 +105,7 @@ class Player():
           self.velo_y = 0
           self.jump_state = 0
           self.jumped = False
+          self.direction = 0 
 
      #updating the player movement
      def update (self,game_over):
@@ -154,7 +155,24 @@ class Player():
                self.velo_y +=0.9
                if self.velo_y > 10:
                     self.velo_y = 10
-               dy += self.velo_y          
+               dy += self.velo_y
+               if key[pygame.K_a] == False and key[pygame.K_d] == False :
+                    self.counter = 0
+                    self.index = 0
+                    self.image = self.images_right[self.index] 
+
+
+               # handle animation
+               if self.counter > walk_cooldown:
+                    self.counter = 0
+                    self.index = 0
+                    self.image = +1
+               if self.index >= len(self.images_right):
+                    self.index = 0
+               if self.direction == 1:
+                    self.image = self.images_right[self.index]
+               if self.direction == -1:
+                    self.image = self.images_left[self.index]  
 
                #check for collision 
                self.in_air = True
