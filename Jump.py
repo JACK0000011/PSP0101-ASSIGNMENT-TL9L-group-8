@@ -34,6 +34,7 @@ portal_img = pygame.image.load('pictures/portal.jpg')
 
 #text_font
 text_font = pygame.font.SysFont('Arial',30 )
+timer_font = pygame.font.SysFont('Arial',30)
 
 def draw_text(text, font, text_col, x, y):
      img = font.render(text, True, text_col)
@@ -283,8 +284,11 @@ exit_button = Button(screen_width // 2 + 150 , screen_height // 2 , exit_img)
 
 run = True
 #variable to control when to display the text
+start_time = pygame.time.get_ticks()
 show_text = False 
-tex_start_time = 0 #store time when the text is shown
+text_start_time = 0 #store time when the text is shown
+time_different = 0 
+show_timer = False
 
 while run :
     clock.tick(fps)
@@ -301,12 +305,19 @@ while run :
          player.update(game_over)
          portal_group.draw(screen)
           
-         
+         if game_over == 0:
+              current_time = pygame.time.get_ticks()
+              time_different = (current_time - start_time) // 1000
+
+         timer_text = f'Time used: {time_different}'
+         draw_text(timer_text, timer_font, (255, 255, 255), 10, 10)
           #if the player has died
          if game_over == -1:
             replay_action = replay_button.draw()
 
             if replay_action : 
+               start_time = pygame.time.get_ticks()
+               time_different = 0
                level = 1
                world_data = [] 
                world = reset_level(level)
@@ -341,13 +352,13 @@ while run :
         draw_text(text, text_font, (255, 255, 255), 155, 50 + Tutorial_text.index(text)*40) 
      #check if 15s have passed since that the text was shown
      current_time = pygame.time.get_ticks()
-     if current_time - tex_start_time >= 15000 :
+     if current_time - text_start_time >= 5000 :
           show_text = False
          
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-    
+
     pygame.display.update()
     
 pygame.quit
