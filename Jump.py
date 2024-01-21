@@ -112,7 +112,7 @@ class Player():
 
           dx = 0
           dy = 0
-          walk_cooldown = 10
+          walk_cooldown = 5
           
                #detect if key is pressed
           if game_over == 0:   
@@ -161,18 +161,17 @@ class Player():
                     self.index = 0
                     self.image = self.images_right[self.index] 
 
-
-               # handle animation
+               # handle animation  
                if self.counter > walk_cooldown:
                     self.counter = 0
-                    self.index = 0
-                    self.image = +1
+                    self.index += 1
                if self.index >= len(self.images_right):
                     self.index = 0
+
                if self.direction == 1:
                     self.image = self.images_right[self.index]
                if self.direction == -1:
-                    self.image = self.images_left[self.index]  
+                    self.image = self.images_left[self.index]
 
                #check for collision 
                self.in_air = True
