@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import pickle
 from os import path
-
+from pygame import mixer
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -13,6 +13,10 @@ text_screen = pygame.display.set_mode((screen_width , screen_height))
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jail break Jump")
 
+#adding background music to the game
+mixer.music.load('BGM.mp3')
+mixer.music.play(-1)
+mixer.music.set_volume(1.8)
 #define game variables
 main_menu = True
 level=1
@@ -331,7 +335,7 @@ while run :
           "Press 'A' to move left", 
           "Press 'D' to move right",
           "Press 'Space' to jump" ,
-          "Press 'Shift' to sprinte and jump further"
+          "Press 'Shift' to sprint and jump further"
      ]
      for text in Tutorial_text :
         draw_text(text, text_font, (255, 255, 255), 155, 50 + Tutorial_text.index(text)*40) 
