@@ -68,13 +68,7 @@ def reset_level(level):
      world=World(world_data)
 
      return world
-
-# #drawing a grid for each tile(not using this in actual game)
-# def draw_grid():
-# 	for line in range(0, 20):
-# 		pygame.draw.line(screen, (255, 255, 255), (0, line * tile_size), (screen_width, line * tile_size))
-# 		pygame.draw.line(screen, (255, 255, 255), (line * tile_size, 0), (line * tile_size, screen_height))
-          
+  
 class Button():
      def __init__(self,x,y,image):
           self.image = image
@@ -137,7 +131,7 @@ class Player():
           dy = 0
           walk_cooldown = 5
           
-               #detect if key is pressed
+          #detect if key is pressed and perform different movement for the player
           if game_over == 0:   
                key = pygame.key.get_pressed()
                #adding a condition for not double jumping
@@ -152,7 +146,7 @@ class Player():
                     self.jump_state += 1
                     self.jumped = False
                     
-               #adding a sprint status to make the player jump further
+               #adding a sprint status to make the player run and jump further
                if key[pygame.K_a] and key[pygame.K_LSHIFT]:
                     dx -=3
                     self.sprint = True
@@ -212,7 +206,7 @@ class Player():
                          if self.velo_y > 0:
                               dy = tile[1].top -self.rect.bottom
                               self.velo_y = 0
-                              self.in_air = False
+
                          
                     #determine if a player is collide with portal and change his level
                     if pygame.sprite.spritecollide(self,portal_group,False):
@@ -223,6 +217,7 @@ class Player():
                                  game_over = 1
                   #           print('changing level')          
               
+              # checking if player position is outside of the game screen and add a game over condition
                y_threshold = screen_height + 100
                if self.rect.y > y_threshold :
                     game_over = -1
@@ -247,7 +242,6 @@ class Player():
           self.velo_y = 0
           self.jump_state = 0
           self.jumped = False
-          self.in_air = True
 
 #create a class for game world and setting the tiles
 class World():
@@ -276,7 +270,7 @@ class World():
         for tile in self.tile_list:
             screen.blit( tile[0],tile[1])
             
-#create a class for portal
+#create a class for portal (for advancing to next level)
 class Portal(pygame.sprite.Sprite):
           def __init__(self,x,y):
                pygame.sprite.Sprite.__init__(self)
