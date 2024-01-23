@@ -44,7 +44,6 @@ grey_img = pygame.image.load('pictures/stone.jpg')
 replay_img = pygame.image.load('pictures/replay.png')
 play_img = pygame.image.load('pictures/play.png')
 exit_img = pygame.image.load('pictures/exit.png')
-portal_img = pygame.image.load('pictures/portal.jpg')
 
 #text_font
 text_font = pygame.font.SysFont('Arial',30)
@@ -129,7 +128,7 @@ class Player():
 
           dx = 0
           dy = 0
-          walk_cooldown = 5
+          walk_cooldown = 15
           
           #detect if key is pressed and perform different movement for the player
           if game_over == 0:   
@@ -274,8 +273,8 @@ class World():
 class Portal(pygame.sprite.Sprite):
           def __init__(self,x,y):
                pygame.sprite.Sprite.__init__(self)
-               img = pygame.image.load('pictures/portal.jpg')
-               self.image = pygame.transform.scale(img,(tile_size,int(tile_size*1.5)))
+               img = pygame.image.load('pictures/door.png')
+               self.image = pygame.transform.scale(img,(tile_size,int(tile_size*1.6)))
                self.rect = self.image.get_rect()
                self.rect.x = x
                self.rect.y = y
@@ -327,14 +326,17 @@ show_timer = False
 while run :
     clock.tick(fps)
     screen.blit(back_img,(0,0))
-
+    #text for showing on the screen
+    level_text= [f'level={level}']
+    
     if main_menu == True:
       if exit_button.draw():
            run = False
       if play_button.draw():
            main_menu = False
            #show text when play is clicked
-           show_text = True 
+           show_text = True
+     
     else:
          world.draw()
          player.update(game_over)
@@ -375,6 +377,9 @@ while run :
                   else:
                    #restart game
                      pass 
+    #showing level in the game
+    for text in level_text :
+        draw_text(text, text_font, (255, 255, 255), 10, 50 + level_text.index(text)*40)
 
     if show_text:
      #display text after play button is clicked 
@@ -391,7 +396,10 @@ while run :
      current_time = pygame.time.get_ticks()
      if current_time - text_start_time >= 5000 :
           show_text = False
-         
+     
+
+
+
     if show_thank_you:
          #make the word to be the center of the screen
          text_width, text_height = text_font.size(thank_you_message)
