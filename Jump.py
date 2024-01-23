@@ -36,7 +36,7 @@ level = 1
 game_over = 0
 tile_size = 50
 max_levels = 10
-player_name = 'DefaultPlayer'#
+player_name = 'DefaultPlayer'
 
 #setting the image
 back_img = pygame.image.load('pictures/prison2.jpg')
@@ -298,7 +298,7 @@ replay_button = Button(screen_width // 2 - 70 , screen_height // 2 + 100 , repla
 play_button = Button(screen_width // 2 - 350 , screen_height // 2 , play_img)
 exit_button = Button(screen_width // 2 + 150 , screen_height // 2 , exit_img) 
 
-#
+#load highscores from a file 
 def load_highscores():
      try:
           with open('highscores.json' , 'r') as file:
@@ -307,12 +307,12 @@ def load_highscores():
           highscores = {}
      return highscores
 
-#
+#save highscores to a file
 def save_highscores(highscores):
      with open('highscores.json' , 'w') as file:
           json.dump(highscores , file)
 
-#
+#init hidhscores
 highscores = load_highscores()
 
 run = True
@@ -399,19 +399,19 @@ while run :
          text_y = ( screen_height- text_height) // 2 
          draw_text(thank_you_message, text_font, (255, 255, 255), 300, 300)     
    
-
+    # update the highscores when player finish the entire game 
     if game_over == 1 and level == max_levels:
          if time_different < highscores.get(player_name , float('inf')):
               highscores[player_name] = time_different
               print(f'Congrates, {player_name}! , You have reach a new highscores; {time_different}s')
 
-              #
+              #save the updated highscores in a file
               save_highscores(highscores)
          
-              #
+              #display the highscores
               print("\nHighscores:")
               for name, score in highscores.items():
-                  print(f'{name}: {score}s')
+                 print(f'{name}: {score}s')
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
