@@ -3,10 +3,10 @@
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
 # Class: TL9L
 # Year: 2023/24 Trimester 1
-# Names: Tiew Fu Siang | MEMBER_NAME_2 | MEMBER_NAME_3
-# IDs: 1221107343| MEMBER_ID_2 | MEMBER_ID_3
-# Emails: 1221107343@mmu.edu.my | MEMBER_EMAIL_2 | MEMBER_EMAIL_3
-# Phones: 0103706933 | MEMBER_PHONE_2 | MEMBER_PHONE_3
+# Names: Tiew Fu Siang | Low Zheng Hao | Nicholas Beh Zhi Yang
+# IDs: 1221107343| 1221109384 | 1221106297
+# Emails: 1221107343@mmu.edu.my | 1221109384@student.mmu.edu.my | 1221106297@student.mmu.edu.my
+# Phones: 0103706933 | 0138888444 | 01165215166
 # *********************************************************
 
 
