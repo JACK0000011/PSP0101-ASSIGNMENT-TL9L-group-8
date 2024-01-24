@@ -347,7 +347,7 @@ while run :
               current_time = pygame.time.get_ticks()
               time_different = (current_time - start_time) // 1000
 
-         timer_text = f'Time used: {time_different}'
+         timer_text = f'Time : {time_different}s'
          draw_text(timer_text, timer_font, (255, 255, 255), 10, 10)
           #if the player has died
          if game_over == -1:
