@@ -22,8 +22,8 @@ world_data_0 = [
 #first level and so on
 world_data_1 = [
 [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1],
 [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,1,1],
-[1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 [1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
 [1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0],
 [1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1],
@@ -192,5 +192,5 @@ world_data_9 = [
 ]
 
 #create a data file for main game using pickle features
-with open('level_9.data','wb') as f: #open a text file
-    pickle.dump(world_data_9,f)#serialize the list into pickle
+with open('level_1.data','wb') as f: #open a text file
+    pickle.dump(world_data_1,f)#serialize the list into pickle
