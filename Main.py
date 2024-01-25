@@ -11,12 +11,14 @@
 
 
 import pygame
+import random
 from pygame.locals import *
 import pickle
 from os import path
-from pygame import mixer
 import json
+#initiate pygame and sound mixer
 pygame.init()
+pygame.mixer.init()
 
 clock = pygame.time.Clock()
 fps = 60
@@ -26,10 +28,18 @@ text_screen = pygame.display.set_mode((screen_width , screen_height))
 screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jail break Jump")
 
-#adding background music to the game
-mixer.music.load('BGM.mp3')
-mixer.music.play(-1)
-mixer.music.set_volume(1.8)
+#adding sound to the game
+BGM=pygame.mixer.Sound('Sound/BGM.mp3')
+Jump_effect = pygame.mixer.Sound('Sound/jump_effect.mp3')
+Jump_effect2 = pygame.mixer.Sound('Sound/jump_effect2.mp3')
+Open=pygame.mixer.Sound('Sound/door_open.mp3')
+Click=pygame.mixer.Sound('Sound/click.mp3')
+
+#setting volume
+BGM.set_volume(1.8)
+Jump_effect.set_volume(0.5)
+Open.set_volume(1.5)
+BGM.play()
 #define game variables
 main_menu = True
 level = 1
@@ -46,8 +56,9 @@ play_img = pygame.image.load('pictures/play.png')
 exit_img = pygame.image.load('pictures/exit.png')
 
 #text_font
-text_font = pygame.font.SysFont('Arial',30)
-timer_font = pygame.font.SysFont('Arial',30)
+text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
+timer_font = pygame.font.SysFont('ComicSansMS.ttf',30)
+title_font = pygame.font.SysFont('ComicSansMS.ttf',100)
 
 thank_you_message = 'You finally made it.Thank you for playing our game!'
 show_thank_you = False 
@@ -120,7 +131,7 @@ class Player():
           self.velo_y = 0
           self.jump_state = 0
           self.jumped = False
-          self.sprint = False #small error
+          self.sprint = False 
           self.direction = 0 
 
      #updating the player movement
@@ -129,7 +140,13 @@ class Player():
           dx = 0
           dy = 0
           walk_cooldown = 15
-          
+          #randomize a two int to randomly play two different jump effect
+          if self.jumped == True:
+               x=random.randint(1,2)
+               if x == 1:
+                    Jump_effect.play()
+               else :
+                    Jump_effect2.play()
           #detect if key is pressed and perform different movement for the player
           if game_over == 0:   
                key = pygame.key.get_pressed()
@@ -214,6 +231,7 @@ class Player():
                                    show_thank_you = True
                               else:
                                  game_over = 1
+                                 Open.play()
                   #           print('changing level')          
               
               # checking if player position is outside of the game screen and add a game over condition
@@ -293,9 +311,9 @@ world=World(world_data)
 
 
 #create buttons
-replay_button = Button(screen_width // 2 - 70 , screen_height // 2 + 100 , replay_img)
-play_button = Button(screen_width // 2 - 350 , screen_height // 2 , play_img)
-exit_button = Button(screen_width // 2 + 150 , screen_height // 2 , exit_img) 
+replay_button = Button(350, screen_height // 2 + 100 , replay_img)
+play_button = Button(screen_width // 2 - 380 , screen_height // 1.5 , play_img)
+exit_button = Button(screen_width // 2 + 120 , screen_height // 1.5 , exit_img) 
 
 #load highscores from a file 
 def load_highscores():
@@ -326,13 +344,16 @@ show_timer = False
 while run :
     clock.tick(fps)
     screen.blit(back_img,(0,0))
-    #text for showing on the screen
-    level_text= [f'level={level}']
+    
     
     if main_menu == True:
+      title_text = f'Welcome to Jail Break Jump'
+      draw_text(title_text, title_font, (255, 255, 255), 30, 100)
       if exit_button.draw():
+           Click.play()
            run = False
       if play_button.draw():
+           Click.play()
            main_menu = False
            #show text when play is clicked
            show_text = True
@@ -342,18 +363,24 @@ while run :
          player.update(game_over)
          portal_group.draw(screen)
           
-          #update the timer if game is going
-         if game_over == 0:
+     #      #update the timer if game is going
+         if game_over == 0 :
               current_time = pygame.time.get_ticks()
               time_different = (current_time - start_time) // 1000
 
          timer_text = f'Time : {time_different}s'
          draw_text(timer_text, timer_font, (255, 255, 255), 10, 10)
+          #text for showing level on the screen
+         level_text= f'level = {level}'
+         draw_text(level_text, timer_font, (255, 255, 255), 10, 30)
+
+
           #if the player has died
          if game_over == -1:
             replay_action = replay_button.draw()
 
-            if replay_action : 
+            if replay_action :
+               Click.play() 
                #reset everything
                start_time = pygame.time.get_ticks()
                time_different = 0
@@ -377,29 +404,23 @@ while run :
                   else:
                    #restart game
                      pass 
-    #showing level in the game
-    for text in level_text :
-        draw_text(text, text_font, (255, 255, 255), 10, 50 + level_text.index(text)*40)
-
+    
+     
     if show_text:
      #display text after play button is clicked 
      Tutorial_text = [
-          "Welcome to Jail Breaker Jump!",
           "Press 'A' to move left", 
           "Press 'D' to move right",
           "Press 'Space' to jump" ,
-          "Press 'Shift' to sprint and jump further"
+          "Press 'Shift' to sprint and jump further",
+          "Try your best to escape this Jail !!!!",
      ]
      for text in Tutorial_text :
-        draw_text(text, text_font, (255, 255, 255), 300, 50 + Tutorial_text.index(text)*40) 
-     #check if 5s have passed since that the text was shown
-     current_time = pygame.time.get_ticks()
-     if current_time - text_start_time >= 5000 :
+        draw_text(text, text_font, (255, 255, 255), 600, 500 + Tutorial_text.index(text)*50) 
+     #showing the tutorial for 1st level and disappear start from second
+     if level > 1 :
           show_text = False
      
-
-
-
     if show_thank_you:
          #make the word to be the center of the screen
          text_width, text_height = text_font.size(thank_you_message)
