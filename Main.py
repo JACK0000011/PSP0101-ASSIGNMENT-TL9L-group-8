@@ -1,5 +1,5 @@
 # *********************************************************
-# Program: Jump.py
+# Program: Jailbreak Jump: Endless Escape
 # Course: PSP0101 PROBLEM SOLVING AND PROGRAM DESIGN
 # Class: TL9L
 # Year: 2023/24 Trimester 1
@@ -15,7 +15,6 @@ import random
 from pygame.locals import *
 import pickle
 from os import path
-import json
 #initiate pygame and sound mixer
 pygame.init()
 pygame.mixer.init()
@@ -26,7 +25,7 @@ screen_width = 1000
 screen_height = 800
 text_screen = pygame.display.set_mode((screen_width , screen_height))
 screen = pygame.display.set_mode((screen_width,screen_height))
-pygame.display.set_caption("Jail break Jump")
+pygame.display.set_caption("Jailbreak Jump: Endless Escape")
 
 #adding sound to the game
 BGM=pygame.mixer.Sound('Sound/BGM.mp3')
@@ -58,7 +57,7 @@ exit_img = pygame.image.load('pictures/exit.png')
 #text_font
 text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
 timer_font = pygame.font.SysFont('ComicSansMS.ttf',30)
-title_font = pygame.font.SysFont('ComicSansMS.ttf',100)
+title_font = pygame.font.SysFont('ComicSansMS.ttf',80)
 
 thank_you_message = 'You finally made it.Thank you for playing our game!'
 show_thank_you = False 
@@ -150,7 +149,7 @@ class Player():
           #detect if key is pressed and perform different movement for the player
           if game_over == 0:   
                key = pygame.key.get_pressed()
-               #adding a condition for not double jumping
+               #adding two conditions for not double jumping
                if key[pygame.K_SPACE] and self.jumped == False and self.jump_state >=15:                
                     self.velo_y = -15
                     self.jump_state = 0
@@ -184,6 +183,7 @@ class Player():
                     self.sprint = False
                     self.counter += 1
                     self.direction = 1
+
                #adding gravity to player
                self.velo_y +=0.9
                if self.velo_y > 10:
@@ -315,23 +315,6 @@ replay_button = Button(350, screen_height // 2 + 100 , replay_img)
 play_button = Button(screen_width // 2 - 380 , screen_height // 1.5 , play_img)
 exit_button = Button(screen_width // 2 + 120 , screen_height // 1.5 , exit_img) 
 
-#load highscores from a file 
-def load_highscores():
-     try:
-          with open('highscores.json' , 'r') as file:
-               highscores = json.load(file)
-     except(FileNotFoundError , json.JSONDecodeError):
-          highscores = {}
-     return highscores
-
-#save highscores to a file
-def save_highscores(highscores):
-     with open('highscores.json' , 'w') as file:
-          json.dump(highscores , file)
-
-#init hidhscores
-highscores = load_highscores()
-
 run = True
 #variable to control when to display the text
 start_time = pygame.time.get_ticks()
@@ -347,8 +330,8 @@ while run :
     
     
     if main_menu == True:
-      title_text = f'Welcome to Jail Break Jump'
-      draw_text(title_text, title_font, (255, 255, 255), 30, 100)
+      title_text = f"Jailbreak Jump, Endless Escape"
+      draw_text(title_text, title_font, (255, 255, 255), 50, 150)
       if exit_button.draw():
            Click.play()
            run = False
@@ -421,26 +404,6 @@ while run :
      if level > 1 :
           show_text = False
      
-    if show_thank_you:
-         #make the word to be the center of the screen
-         text_width, text_height = text_font.size(thank_you_message)
-         text_x = (screen_width - text_width) // 2 
-         text_y = ( screen_height- text_height) // 2 
-         draw_text(thank_you_message, text_font, (255, 255, 255), 300, 300)     
-   
-    # update the highscores when player finish the entire game 
-    if game_over == 1 and level == max_levels:
-         if time_different < highscores.get(player_name , float('inf')):
-              highscores[player_name] = time_different
-              print(f'Congrates, {player_name}! , You have reach a new highscores; {time_different}s')
-
-              #save the updated highscores in a file
-              save_highscores(highscores)
-         
-              #display the highscores
-              print("\nHighscores:")
-              for name, score in highscores.items():
-                 print(f'{name}: {score}s')
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

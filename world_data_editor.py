@@ -1,5 +1,6 @@
 import pickle
 #a list for empty maps easy for the rest editing
+# 1 = tile , 0 = non tile ,2 = portal
 world_data_0 = [
 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
 [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
