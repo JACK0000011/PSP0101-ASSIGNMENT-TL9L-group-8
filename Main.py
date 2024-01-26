@@ -37,7 +37,7 @@ Click=pygame.mixer.Sound('Sound/click.mp3')
 
 #setting volume
 BGM.set_volume(1.8)
-Jump_effect.set_volume(0.5)
+Jump_effect.set_volume(0.2)
 Open.set_volume(1.5)
 BGM.play()
 #define game variables
@@ -339,7 +339,23 @@ show_text = False
 #store time when the text is shown
 text_start_time = 0 
 time_different = 0 
+death_count = 0
 show_timer = False
+
+game_over_messages = [
+     "GG",
+     "Try again",
+     "You can do it!!",
+     "Bad luck",
+     "So sad, good luck for next time",
+     "LOL",
+     "Haiyaa, can or not?",
+     "That's all you got?",
+     "菜就多练",
+     "Even my grandma can reach higher level than you",
+     "Nicholas said you are terrible player",
+     "Only 9 levels, you still can't reach it"
+]
 
 while run :
     clock.tick(fps)
@@ -347,7 +363,7 @@ while run :
     
     
     if main_menu == True:
-      title_text = f'Welcome to Jail Break Jump'
+      title_text = 'Welcome to Jail Break Jump'
       draw_text(title_text, title_font, (255, 255, 255), 30, 100)
       if exit_button.draw():
            Click.play()
@@ -379,6 +395,21 @@ while run :
          if game_over == -1:
             replay_action = replay_button.draw()
 
+            if death_count == 0:
+               death_count += 1
+
+            # Select the game over message based on death_count
+            if death_count < len(game_over_messages):
+                game_over_text = game_over_messages[death_count]
+            else:
+                # Default to the last message if death_count exceeds the list length
+                game_over_text = game_over_messages[-1]
+
+            draw_text(game_over_text, title_font, (255, 255, 255), screen_width // 2 - 250, screen_height // 2 - 50)
+
+            if death_count > 0:
+               draw_text(f"Death: {death_count} times.", text_font, (255, 255, 255), screen_width // 2 - 100, screen_height // 2 + 50)
+
             if replay_action :
                Click.play() 
                #reset everything
@@ -389,6 +420,7 @@ while run :
                world = reset_level(level)
                player.reset(100,screen_height -130)
                game_over = 0
+               death_count = 0
  
          else :
               game_over = player.update(game_over) 
