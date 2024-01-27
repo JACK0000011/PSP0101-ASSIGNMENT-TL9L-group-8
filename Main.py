@@ -30,7 +30,7 @@ pygame.display.set_caption("Jailbreak Jump: Endless Escape")
 
 #adding sound to the game
 BGM = pygame.mixer.Sound('Sound/BGM.mp3')
-death_sound = pygame.mixer.Sound('Sound/death_sound.mp3')
+death_sound = pygame.mixer.Sound('Sound/death_bgm2.mp3')
 Jump_effect = pygame.mixer.Sound('Sound/jump_effect.mp3')
 Jump_effect2 = pygame.mixer.Sound('Sound/jump_effect2.mp3')
 Open=pygame.mixer.Sound('Sound/door_open.mp3')
@@ -39,6 +39,8 @@ Click=pygame.mixer.Sound('Sound/click.mp3')
 #setting volume
 BGM.set_volume(1.8)
 Jump_effect.set_volume(0.5)
+Jump_effect2.set_volume(0.5)
+death_sound.set_volume(0.3)
 Open.set_volume(1.5)
 BGM.play()
 #define game variables
@@ -59,6 +61,7 @@ exit_img = pygame.image.load('pictures/exit.png')
 text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
 timer_font = pygame.font.SysFont('ComicSansMS.ttf',30)
 title_font = pygame.font.SysFont('ComicSansMS.ttf',100)
+game_over_font = pygame.font.SysFont('ComicSansMS.ttf',50)
 
 thank_you_message = 'You finally made it.Thank you for playing our game!'
 show_thank_you = False 
@@ -317,23 +320,25 @@ exit_button = Button(screen_width // 2 + 120 , screen_height // 1.5 , exit_img)
 
 run = True
 #variable to control when to display the text
+
 start_time = pygame.time.get_ticks()
 show_text = False 
+
 #store time when the text is shown
 text_start_time = 0 
 time_different = 0 
 show_timer = False
 
 game_over_messages = [
-     "GG",
-     "Try again",
-     "You can do it!!",
-     "Bad luck",
+     "   GG    ",
+     "  Try again",
+     "  You can do it!!",
+     "  Bad luck",
      "So sad, good luck for next time",
-     "LOL",
+     "   LOL",
      "Haiyaa, can or not?",
      "That's all you got?",
-     "HAHA",
+     "   HAHA",
      "Even my grandma can reach higher level than you",
      "Nicholas said you are terrible player",
      "Only 9 levels, you still can't reach it"
@@ -376,8 +381,9 @@ while run :
           #if the player has died
          if game_over == -1:
             replay_action = replay_button.draw()
-            BGM.stop()
             death_sound.play()
+            BGM.stop()
+            
 
           # Select the game over message based on death_count
             if player.death_count < len(game_over_messages):
@@ -386,11 +392,11 @@ while run :
                 # Default to the last message if death_count exceeds the list length
                 game_over_text = game_over_messages[-1]
 
-            draw_text(game_over_text, game_over_font, (255, 255, 255), screen_width // 2 - 150, screen_height // 2 - 50)
+            draw_text(game_over_text, game_over_font, (255, 0, 0), 350, screen_height // 2 - 50)
 
             if player.death_count > 0:
-                draw_text(f"Death: {player.death_count}", text_font, (255, 255, 255), screen_width // 2 - 100,
-                          screen_height // 2 + 50)
+                draw_text(f"Death: {player.death_count}", game_over_font, (255, 0, 0), screen_width // 2 - 100,
+                          screen_height // 2 )
 
 
             if replay_action :
