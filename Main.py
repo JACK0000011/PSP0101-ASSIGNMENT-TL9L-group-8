@@ -37,6 +37,7 @@ Click=pygame.mixer.Sound('Sound/click.mp3')
 #setting volume
 BGM.set_volume(1.8)
 Jump_effect.set_volume(0.5)
+Jump_effect2.set_volume(0.5)
 Open.set_volume(1.5)
 BGM.play()
 #define game variables
@@ -400,6 +401,7 @@ while run :
      ]
      for text in Tutorial_text :
         draw_text(text, text_font, (255, 255, 255), 600, 500 + Tutorial_text.index(text)*50) 
+        
      #showing the tutorial for 1st level and disappear start from second
      if level > 1 :
           show_text = False
