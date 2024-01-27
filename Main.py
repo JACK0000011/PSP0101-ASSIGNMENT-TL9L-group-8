@@ -10,6 +10,7 @@
 # *********************************************************
 
 
+from typing import Self
 import pygame
 import random
 from pygame.locals import *
@@ -29,7 +30,8 @@ screen = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption("Jail break Jump")
 
 #adding sound to the game
-BGM=pygame.mixer.Sound('Sound/BGM.mp3')
+BGM = pygame.mixer.Sound('Sound/BGM.mp3')
+death_sound = pygame.mixer.Sound('Sound/death_sound.mp3')
 Jump_effect = pygame.mixer.Sound('Sound/jump_effect.mp3')
 Jump_effect2 = pygame.mixer.Sound('Sound/jump_effect2.mp3')
 Open=pygame.mixer.Sound('Sound/door_open.mp3')
@@ -37,6 +39,7 @@ Click=pygame.mixer.Sound('Sound/click.mp3')
 
 #setting volume
 BGM.set_volume(1.8)
+death_sound.set_volume(1.8)
 Jump_effect.set_volume(0.2)
 Open.set_volume(1.5)
 BGM.play()
@@ -46,7 +49,6 @@ level = 1
 game_over = 0
 tile_size = 50
 max_levels = 10
-player_name = 'DefaultPlayer'
 
 #setting the image
 back_img = pygame.image.load('pictures/prison2.jpg')
@@ -59,6 +61,7 @@ exit_img = pygame.image.load('pictures/exit.png')
 text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
 timer_font = pygame.font.SysFont('ComicSansMS.ttf',30)
 title_font = pygame.font.SysFont('ComicSansMS.ttf',100)
+game_over_font = pygame.font.SysFont('ComicSansMS.ttf',40)
 
 thank_you_message = 'You finally made it.Thank you for playing our game!'
 show_thank_you = False 
@@ -85,9 +88,6 @@ class Button():
           self.rect = self.image.get_rect()
           self.rect.x =  x
           self.rect.y = y 
-          self.clicked = False
-          
-          
 
      def draw(self):
           action = False
@@ -133,6 +133,7 @@ class Player():
           self.jumped = False
           self.sprint = False 
           self.direction = 0 
+          self.death_count = 0
 
      #updating the player movement
      def update (self,game_over):
@@ -238,6 +239,7 @@ class Player():
                y_threshold = screen_height + 100
                if self.rect.y > y_threshold :
                     game_over = -1
+                    self.death_count += 1
 
                #update player position
                self.rect.x += dx
@@ -339,7 +341,6 @@ show_text = False
 #store time when the text is shown
 text_start_time = 0 
 time_different = 0 
-death_count = 0
 show_timer = False
 
 game_over_messages = [
@@ -351,7 +352,7 @@ game_over_messages = [
      "LOL",
      "Haiyaa, can or not?",
      "That's all you got?",
-     "菜就多练",
+     "HAHA",
      "Even my grandma can reach higher level than you",
      "Nicholas said you are terrible player",
      "Only 9 levels, you still can't reach it"
@@ -394,21 +395,22 @@ while run :
           #if the player has died
          if game_over == -1:
             replay_action = replay_button.draw()
+            BGM.stop()
+            death_sound.play()
 
-            if death_count == 0:
-               death_count += 1
-
-            # Select the game over message based on death_count
-            if death_count < len(game_over_messages):
-                game_over_text = game_over_messages[death_count]
+          # Select the game over message based on death_count
+            if player.death_count < len(game_over_messages):
+                game_over_text = game_over_messages[player.death_count - 1]
             else:
                 # Default to the last message if death_count exceeds the list length
                 game_over_text = game_over_messages[-1]
 
-            draw_text(game_over_text, title_font, (255, 255, 255), screen_width // 2 - 250, screen_height // 2 - 50)
+            draw_text(game_over_text, game_over_font, (255, 255, 255), screen_width // 2 - 150, screen_height // 2 - 50)
 
-            if death_count > 0:
-               draw_text(f"Death: {death_count} times.", text_font, (255, 255, 255), screen_width // 2 - 100, screen_height // 2 + 50)
+            if player.death_count > 0:
+                draw_text(f"Death: {player.death_count}", text_font, (255, 255, 255), screen_width // 2 - 100,
+                          screen_height // 2 + 50)
+
 
             if replay_action :
                Click.play() 
@@ -420,7 +422,8 @@ while run :
                world = reset_level(level)
                player.reset(100,screen_height -130)
                game_over = 0
-               death_count = 0
+               death_sound.stop()
+               BGM.play()
  
          else :
               game_over = player.update(game_over) 
