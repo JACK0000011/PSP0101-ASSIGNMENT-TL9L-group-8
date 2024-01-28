@@ -60,7 +60,7 @@ exit_img = pygame.image.load('pictures/exit.png')
 death_img = pygame.image.load('pictures/dead.png')
 
 #rescale the death_img to make it smaller
-death_img = pygame.transform.scale(death_img,(180,180))
+death_img = pygame.transform.scale(death_img,(200,200))
 
 #text_font
 text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
@@ -389,17 +389,15 @@ while run :
             replay_action = replay_button.draw()
             screen.blit(death_img,(390,280))           
             BGM.stop()
+
+          #set timer for dead message and ended the scream and play another dead music
+            
             start_time_dead = 0
-            start_time_dead += pygame.time.get_ticks() - start_time
-            print(start_time_dead)          
+            start_time_dead += pygame.time.get_ticks() - start_time        
             if start_time_dead >=4500:
                          death_sound.stop()
                          death_sound2.play()
-                         start_time_dead = -1000
-
-     
-            
-            
+                         start_time_dead = -500
 
           # Select the game over message based on death_count
             if player.death_count < len(game_over_messages):
