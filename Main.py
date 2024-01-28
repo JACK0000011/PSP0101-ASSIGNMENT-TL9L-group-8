@@ -10,7 +10,6 @@
 # *********************************************************
 
 
-from typing import Self
 import pygame
 import random
 from pygame.locals import *
@@ -22,6 +21,7 @@ pygame.mixer.init()
 
 clock = pygame.time.Clock()
 fps = 60
+death_sound_int = 0
 screen_width = 1000
 screen_height = 800
 text_screen = pygame.display.set_mode((screen_width , screen_height))
@@ -30,7 +30,8 @@ pygame.display.set_caption("Jailbreak Jump: Endless Escape")
 
 #adding sound to the game
 BGM = pygame.mixer.Sound('Sound/BGM.mp3')
-death_sound = pygame.mixer.Sound('Sound/death_bgm2.mp3')
+death_sound = pygame.mixer.Sound('Sound/scream.mp3')
+death_sound2= pygame.mixer.Sound('Sound/death_bgm2.mp3')
 Jump_effect = pygame.mixer.Sound('Sound/jump_effect.mp3')
 Jump_effect2 = pygame.mixer.Sound('Sound/jump_effect2.mp3')
 Open=pygame.mixer.Sound('Sound/door_open.mp3')
@@ -40,7 +41,7 @@ Click=pygame.mixer.Sound('Sound/click.mp3')
 BGM.set_volume(1.8)
 Jump_effect.set_volume(0.5)
 Jump_effect2.set_volume(0.5)
-death_sound.set_volume(0.3)
+death_sound.set_volume(0.5)
 Open.set_volume(1.5)
 BGM.play()
 #define game variables
@@ -56,6 +57,10 @@ grey_img = pygame.image.load('pictures/stone.jpg')
 replay_img = pygame.image.load('pictures/replay.png')
 play_img = pygame.image.load('pictures/play.png')
 exit_img = pygame.image.load('pictures/exit.png')
+death_img = pygame.image.load('pictures/dead.png')
+
+#rescale the death_img to make it smaller
+death_img = pygame.transform.scale(death_img,(180,180))
 
 #text_font
 text_font = pygame.font.SysFont('ComicSansMS.ttf',30)
@@ -186,7 +191,7 @@ class Player():
                     self.counter += 1
                     self.direction = 1
 
-               #adding gravity to player
+               #adding gravity to player     
                self.velo_y +=0.9
                if self.velo_y > 10:
                     self.velo_y = 10
@@ -314,14 +319,14 @@ world=World(world_data)
 
 
 #create buttons
-replay_button = Button(350, screen_height // 2 + 100 , replay_img)
+replay_button = Button(350, screen_height // 2 + 240 , replay_img)
 play_button = Button(screen_width // 2 - 380 , screen_height // 1.5 , play_img)
 exit_button = Button(screen_width // 2 + 120 , screen_height // 1.5 , exit_img) 
 
 run = True
+start_time = pygame.time.get_ticks()
 #variable to control when to display the text
 
-start_time = pygame.time.get_ticks()
 show_text = False 
 
 #store time when the text is shown
@@ -339,7 +344,7 @@ game_over_messages = [
      "Haiyaa, can or not?",
      "That's all you got?",
      "   HAHA",
-     "Even my grandma can reach higher level than you",
+     "Even my grandma can play better",
      "Nicholas said you are terrible player",
      "Only 9 levels, you still can't reach it"
 ]
@@ -380,9 +385,20 @@ while run :
 
           #if the player has died
          if game_over == -1:
-            replay_action = replay_button.draw()
             death_sound.play()
+            replay_action = replay_button.draw()
+            screen.blit(death_img,(390,280))           
             BGM.stop()
+            start_time_dead = 0
+            start_time_dead += pygame.time.get_ticks() - start_time
+            print(start_time_dead)          
+            if start_time_dead >=4500:
+                         death_sound.stop()
+                         death_sound2.play()
+                         start_time_dead = -1000
+
+     
+            
             
 
           # Select the game over message based on death_count
@@ -392,11 +408,11 @@ while run :
                 # Default to the last message if death_count exceeds the list length
                 game_over_text = game_over_messages[-1]
 
-            draw_text(game_over_text, game_over_font, (255, 0, 0), 350, screen_height // 2 - 50)
+            draw_text(game_over_text, game_over_font, (255, 0, 0), 350, screen_height // 2+100 )
 
             if player.death_count > 0:
                 draw_text(f"Death: {player.death_count}", game_over_font, (255, 0, 0), screen_width // 2 - 100,
-                          screen_height // 2 )
+                          screen_height // 2+150 )
 
 
             if replay_action :
@@ -409,7 +425,7 @@ while run :
                world = reset_level(level)
                player.reset(100,screen_height -130)
                game_over = 0
-               death_sound.stop()
+               death_sound2.stop()
                BGM.play()
  
          else :
@@ -452,4 +468,6 @@ while run :
     pygame.display.update()
     
 pygame.quit()
+
+
 #Congratulations you have reached the end of our assignment
