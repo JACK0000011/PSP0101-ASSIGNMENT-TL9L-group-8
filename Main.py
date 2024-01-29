@@ -21,7 +21,7 @@ pygame.mixer.init()
 
 clock = pygame.time.Clock()
 fps = 60
-death_sound_int = 0
+
 screen_width = 1000
 screen_height = 800
 text_screen = pygame.display.set_mode((screen_width , screen_height))
@@ -30,8 +30,7 @@ pygame.display.set_caption("Jailbreak Jump: Endless Escape")
 
 #adding sound to the game
 BGM = pygame.mixer.Sound('Sound/BGM.mp3')
-death_sound = pygame.mixer.Sound('Sound/scream.mp3')
-death_sound2= pygame.mixer.Sound('Sound/death_bgm2.mp3')
+death_sound = pygame.mixer.Sound('Sound/death_sound.mp3')
 Jump_effect = pygame.mixer.Sound('Sound/jump_effect.mp3')
 Jump_effect2 = pygame.mixer.Sound('Sound/jump_effect2.mp3')
 Open=pygame.mixer.Sound('Sound/door_open.mp3')
@@ -79,6 +78,7 @@ def draw_text(text, font, text_col, x, y):
 def reset_level(level):
      player.reset(100,screen_height - 130)
      portal_group.empty()
+     
      # load in level data and create world
      if path.exists(f'level_{level}.data'):
           pickle_in = open (f'level_{level}.data','rb')
@@ -234,9 +234,7 @@ class Player():
                     #determine if a player is collide with portal and change his level
                     if pygame.sprite.spritecollide(self,portal_group,False):
                               #check if it is the last level
-                              if level == max_levels:
-                                   show_thank_you = True
-                              else:
+                              if level <= max_levels:                                 
                                  game_over = 1
                                  Open.play()
                   #           print('changing level')          
@@ -387,17 +385,10 @@ while run :
          if game_over == -1:
             death_sound.play()
             replay_action = replay_button.draw()
-            screen.blit(death_img,(390,280))           
+            screen.blit(death_img,(390,280))         
             BGM.stop()
 
-          #set timer for dead message and ended the scream and play another dead music
-            
-            start_time_dead = 0
-            start_time_dead += pygame.time.get_ticks() - start_time        
-            if start_time_dead >=4500:
-                         death_sound.stop()
-                         death_sound2.play()
-                         start_time_dead = -500
+
 
           # Select the game over message based on death_count
             if player.death_count < len(game_over_messages):
@@ -423,7 +414,7 @@ while run :
                world = reset_level(level)
                player.reset(100,screen_height -130)
                game_over = 0
-               death_sound2.stop()
+               death_sound.stop()
                BGM.play()
  
          else :
